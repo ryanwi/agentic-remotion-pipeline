@@ -28,5 +28,6 @@ from the common skeleton of several agent-driven video pipelines. It is the laye
 
 ## Ideas / backlog
 
-- Optional companion skill packaging (skills.sh / plugin marketplace) once the scaffold settles.
-- Consider extracting `mix.ts` as a standalone `remotion-audio-mux` package or a `rules/` PR upstream.
+- `scripts/mix.ts` is the canonical home for the audio-composite + loudnorm logic. (Considered
+  extracting it as a standalone `remotion-audio-mux` package — decided against: it's a thin ffmpeg
+  wrapper with a near-zero audience, not worth the maintenance. Lift the file into new repos as needed.)
