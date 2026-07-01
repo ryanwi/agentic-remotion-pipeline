@@ -25,7 +25,7 @@ export const StatScene: React.FC<{
         <div
           style={{
             fontFamily: theme.fonts.display,
-            fontSize: 320,
+            fontSize: theme.sizes.stat,
             fontWeight: 700,
             color: theme.colors.accent,
             lineHeight: 0.9,

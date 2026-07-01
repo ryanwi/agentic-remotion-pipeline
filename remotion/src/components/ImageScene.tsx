@@ -21,6 +21,9 @@ export const ImageScene: React.FC<{
   durationInFrames: number;
 }> = ({ src, caption, source, kenBurns, durationInFrames }) => {
   const { opacity } = useSceneAnimation(durationInFrames, { slide: 0 });
+  // WARN: remote URLs stall headless renders — CDNs frequently 403 or throttle
+  // datacenter traffic and will hang delayRender until timeout. Always localize
+  // images to public/ first. See CLAUDE.md rule #5 and docs/agent-guide.md.
   const resolved = src.startsWith("http") ? src : staticFile(src);
 
   return (

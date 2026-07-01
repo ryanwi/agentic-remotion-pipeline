@@ -136,13 +136,13 @@ const measure = spawnSync(
   { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
 );
 const measureOut = measure.stderr ?? "";
-const jsonStart = measureOut.lastIndexOf("{");
-if (jsonStart < 0) {
+const jsonMatch = measureOut.match(/\{[\s\S]*\}/);
+if (!jsonMatch) {
   log.err("Could not read loudnorm measurement from ffmpeg:");
   console.error(measureOut.slice(-800));
   process.exit(1);
 }
-const measured = JSON.parse(measureOut.slice(jsonStart, measureOut.lastIndexOf("}") + 1));
+const measured = JSON.parse(jsonMatch[0]);
 
 const loudnorm =
   `loudnorm=I=${target}:TP=-1.5:LRA=11:` +

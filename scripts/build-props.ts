@@ -71,7 +71,7 @@ const scenes: Scene[] = plan.scenes.map((s: InputScene) => {
           text: c.text,
           body: c.body,
           from: c.from,
-          atFrame: secToFrames(c.atSec, fps) - 1,
+          atFrame: secToFrames(c.atSec, fps),
           durationFrames: secToFrames(c.durationSec, fps),
         })),
       };
@@ -84,8 +84,8 @@ const totalFrames = cursor;
 
 const captions: CaptionWord[] = plan.captions.map((w) => ({
   text: w.text,
-  startFrame: secToFrames(w.startSec, fps) - 1,
-  endFrame: secToFrames(w.endSec, fps) - 1,
+  startFrame: secToFrames(w.startSec, fps),
+  endFrame: secToFrames(w.endSec, fps),
 }));
 
 const videoPlan = VideoPlanSchema.parse({

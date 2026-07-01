@@ -49,7 +49,7 @@ export const Captions: React.FC<{ words: CaptionWord[] }> = ({ words }) => {
         position: "absolute",
         left: 0,
         right: 0,
-        bottom: 260,
+        bottom: theme.safeAreaBottom,
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "center",

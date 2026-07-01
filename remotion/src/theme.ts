@@ -29,7 +29,11 @@ export const theme = {
     body: 40,
     caption: 34,
     kicker: 30,
+    /** Big-number stat card. Intentionally large; use a shorter value string if it overflows. */
+    stat: 320,
   },
+  /** Bottom safe-area padding for caption overlay (accounts for mobile UI chrome). */
+  safeAreaBottom: 260,
   radius: 28,
   pad: 72,
 } as const;

@@ -81,9 +81,9 @@ const SceneBody: React.FC<{ scene: Scene }> = ({ scene }) => {
 export const VideoFromPlan: React.FC<VideoPlan> = (plan) => {
   return (
     <AbsoluteFill style={{ backgroundColor: theme.colors.bg }}>
-      {plan.scenes.map((scene, i) => (
+      {plan.scenes.map((scene) => (
         <Sequence
-          key={i}
+          key={`${scene.type}-${scene.startFrame}`}
           from={scene.startFrame}
           durationInFrames={scene.durationFrames}
           layout="none"

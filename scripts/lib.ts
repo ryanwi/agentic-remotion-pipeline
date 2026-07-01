@@ -54,4 +54,10 @@ export const ffprobeDuration = (file: string): number => {
   return n;
 };
 
+/**
+ * Convert seconds to frames, always returning at least 1.
+ * The clamp is a Remotion safety guard — durationInFrames must be positive.
+ * Zero-second durations are already rejected by Zod (z.number().positive()),
+ * so this is belt-and-suspenders, not a silent error masker.
+ */
 export const secToFrames = (sec: number, fps: number): number => Math.max(1, Math.round(sec * fps));

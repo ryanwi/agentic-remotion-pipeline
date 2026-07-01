@@ -1,0 +1,59 @@
+{
+  "meta": { "fps": 30, "width": 1080, "height": 1920 },
+  "scenes": [
+    {
+      "type": "title",
+      "durationSec": 4,
+      "title": "Audio Example",
+      "subtitle": "music bed + narration segments"
+    },
+    {
+      "type": "stat",
+      "durationSec": 3,
+      "value": "−14",
+      "label": "LUFS — two-pass loudnorm via mix.ts"
+    },
+    {
+      "type": "quote",
+      "durationSec": 5,
+      "quote": "Audio is added after rendering, never inside the composition.",
+      "attribution": "docs/agent-guide.md"
+    },
+    {
+      "type": "end",
+      "durationSec": 3,
+      "title": "Drop files in assets/, reference by path.",
+      "tagline": "Never hotlink audio — localize first."
+    }
+  ],
+  "captions": [
+    { "text": "Audio", "startSec": 0.2, "endSec": 0.7 },
+    { "text": "is", "startSec": 0.7, "endSec": 1.0 },
+    { "text": "added", "startSec": 1.0, "endSec": 1.5 },
+    { "text": "after", "startSec": 1.5, "endSec": 2.0 },
+    { "text": "rendering.", "startSec": 2.0, "endSec": 2.8 }
+  ],
+  "audio": {
+    "targetLufs": -14,
+    "music": {
+      "src": "music/bed.mp3",
+      "gainDb": -20
+    },
+    "narration": [
+      {
+        "src": "vo/intro.mp3",
+        "inpointSec": 0,
+        "timelineStartSec": 0,
+        "durationSec": 4,
+        "gainDb": 0
+      },
+      {
+        "src": "vo/stat.mp3",
+        "inpointSec": 0,
+        "timelineStartSec": 4,
+        "durationSec": 3,
+        "gainDb": 0
+      }
+    ]
+  }
+}
