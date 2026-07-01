@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      # ffmpeg/ffprobe are required by mix.ts and by `bin/doctor`.
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Format check
+        run: npm run format:check
+
+      # Exercises input-schema validation + the plan→props compiler (build-props.ts).
+      - name: Compile demo plan
+        run: npm run build:props
+
+      # Toolchain + project preflight (typecheck/format re-run as soft checks).
+      - name: Doctor
+        run: node bin/doctor --ci
