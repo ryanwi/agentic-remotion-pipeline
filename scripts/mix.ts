@@ -144,11 +144,21 @@ if (!jsonMatch) {
 }
 const measured = JSON.parse(jsonMatch[0]);
 
-const loudnorm =
-  `loudnorm=I=${target}:TP=-1.5:LRA=11:` +
-  `measured_I=${measured.input_i}:measured_TP=${measured.input_tp}:` +
-  `measured_LRA=${measured.input_lra}:measured_thresh=${measured.input_thresh}:` +
-  `offset=${measured.target_offset}:linear=true`;
+// Linear correction needs finite measured values. A silent/near-silent premaster
+// measures as -inf integrated loudness (below the gate), which the linear pass
+// can't consume — fall back to single-pass dynamic loudnorm, which never errors.
+const finite = [measured.input_i, measured.input_tp, measured.target_offset].every((v) =>
+  Number.isFinite(parseFloat(v)),
+);
+const loudnorm = finite
+  ? `loudnorm=I=${target}:TP=-1.5:LRA=11:` +
+    `measured_I=${measured.input_i}:measured_TP=${measured.input_tp}:` +
+    `measured_LRA=${measured.input_lra}:measured_thresh=${measured.input_thresh}:` +
+    `offset=${measured.target_offset}:linear=true`
+  : `loudnorm=I=${target}:TP=-1.5:LRA=11`;
+if (!finite) {
+  log.warn("Premaster too quiet to measure; using dynamic loudnorm.");
+}
 
 log.step(`Normalizing to ${target} LUFS and muxing…`);
 ffmpeg([
