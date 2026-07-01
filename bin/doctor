@@ -1,0 +1,98 @@
+#!/usr/bin/env node
+/**
+ * doctor — environment & project preflight.
+ *
+ *   node bin/doctor          human-readable report
+ *   node bin/doctor --ci     terse, non-zero exit on any failure
+ *
+ * Verifies the toolchain (Node, ffmpeg, deps), that an input plan exists, and
+ * runs the code-quality gates (typecheck, format). Fast to run before a render.
+ */
+import { execFileSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ci = process.argv.includes("--ci");
+const help = process.argv.includes("--help") || process.argv.includes("-h");
+
+if (help) {
+  console.log("Usage: node bin/doctor [--ci]\n  --ci   terse output, exit 1 on any failure");
+  process.exit(0);
+}
+
+const paint = (code, s) => (ci ? s : `\x1b[${code}m${s}\x1b[0m`);
+let failures = 0;
+const check = (label, fn) => {
+  try {
+    const detail = fn();
+    console.log(`${paint("32", "✓")} ${label}${detail ? ` — ${detail}` : ""}`);
+  } catch (e) {
+    failures++;
+    console.log(`${paint("31", "✗")} ${label} — ${e.message}`);
+  }
+};
+const soft = (label, fn) => {
+  try {
+    const detail = fn();
+    console.log(`${paint("32", "✓")} ${label}${detail ? ` — ${detail}` : ""}`);
+  } catch (e) {
+    console.log(`${paint("33", "!")} ${label} — ${e.message}`);
+  }
+};
+
+const which = (bin) => {
+  try {
+    return execFileSync(process.platform === "win32" ? "where" : "which", [bin], {
+      encoding: "utf8",
+    }).trim().split("\n")[0];
+  } catch {
+    throw new Error("not found on PATH");
+  }
+};
+const has = (rel) => {
+  if (!fs.existsSync(path.join(ROOT, rel))) throw new Error(`missing ${rel}`);
+  return rel;
+};
+
+console.log(paint("36", "\nToolchain"));
+check("Node ≥ 18", () => {
+  const major = Number(process.versions.node.split(".")[0]);
+  if (major < 18) throw new Error(`have ${process.versions.node}`);
+  return `v${process.versions.node}`;
+});
+check("ffmpeg", () => which("ffmpeg"));
+check("ffprobe", () => which("ffprobe"));
+check("dependencies installed", () => has("node_modules"));
+check("remotion", () => has("node_modules/remotion"));
+check("tsx", () => has("node_modules/tsx"));
+
+console.log(paint("36", "\nProject"));
+check("input/plan.json", () => has("input/plan.json"));
+soft("assets/music (optional)", () => {
+  const dir = path.join(ROOT, "assets", "music");
+  const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => /\.(mp3|m4a|wav)$/i.test(f)) : [];
+  if (!files.length) throw new Error("no music bed (fine unless your plan uses one)");
+  return `${files.length} track(s)`;
+});
+
+console.log(paint("36", "\nCode quality"));
+const npmRun = (script) => {
+  execFileSync("npm", ["run", "--silent", script], { cwd: ROOT, stdio: "pipe" });
+};
+soft("typecheck (tsc --noEmit)", () => {
+  npmRun("typecheck");
+  return "clean";
+});
+soft("format:check (prettier)", () => {
+  npmRun("format:check");
+  return "clean";
+});
+
+console.log(
+  failures === 0
+    ? paint("32", `\nAll required checks passed.\n`)
+    : paint("31", `\n${failures} required check(s) failed.\n`),
+);
+process.exit(failures === 0 ? 0 : 1);

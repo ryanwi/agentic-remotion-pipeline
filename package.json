@@ -1,0 +1,40 @@
+{
+  "name": "agentic-remotion-pipeline",
+  "version": "0.1.0",
+  "description": "An opinionated, agent-drivable Remotion project scaffold: structured JSON in, a loudness-normalized MP4 out. input/ -> build-props -> render (silent) -> mix -> final/.",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build:props": "tsx scripts/build-props.ts",
+    "render": "npm run build:props && remotion render remotion/src/index.ts VideoFromPlan render/out.mp4 --codec=h264 --crf=18 --props=render/props.json",
+    "mix": "tsx scripts/mix.ts",
+    "all": "npm run render && npm run mix",
+    "preview": "npm run build:props && remotion studio remotion/src/index.ts",
+    "still": "npm run build:props && remotion still remotion/src/index.ts VideoFromPlan render/still.png --frame=30 --props=render/props.json",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"scripts/**/*.ts\" \"remotion/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"scripts/**/*.ts\" \"remotion/**/*.{ts,tsx}\"",
+    "doctor": "node bin/doctor",
+    "check": "npm run typecheck && npm run format:check && npm run doctor"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "prettier": "^3.3.0",
+    "remotion": "^4.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "zod": "^3.24.0"
+  }
+}

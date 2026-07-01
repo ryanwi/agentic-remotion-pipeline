@@ -1,0 +1,41 @@
+{
+  "meta": { "fps": 30, "width": 1080, "height": 1920 },
+  "scenes": [
+    {
+      "type": "title",
+      "durationSec": 3,
+      "title": "agentic-remotion-pipeline",
+      "subtitle": "structured JSON in, a finished video out"
+    },
+    {
+      "type": "stat",
+      "durationSec": 2.5,
+      "value": "1",
+      "label": "composition, fully data-driven"
+    },
+    {
+      "type": "quote",
+      "durationSec": 4,
+      "quote": "The agent edits input/plan.json. It never touches render/props.json — that's generated.",
+      "attribution": "the agent contract"
+    },
+    {
+      "type": "stat",
+      "durationSec": 2.5,
+      "value": "−14",
+      "label": "LUFS, loudness-normalized by mix.ts"
+    },
+    {
+      "type": "end",
+      "durationSec": 3,
+      "title": "Fork the theme. Swap the plan.",
+      "tagline": "That's the whole workflow."
+    }
+  ],
+  "captions": [
+    { "text": "JSON", "startSec": 0.3, "endSec": 0.9 },
+    { "text": "in,", "startSec": 0.9, "endSec": 1.4 },
+    { "text": "video", "startSec": 1.4, "endSec": 2.1 },
+    { "text": "out.", "startSec": 2.1, "endSec": 2.9 }
+  ]
+}

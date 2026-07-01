@@ -1,0 +1,8 @@
+node_modules/
+render/
+final/
+# Localized remote assets are downloaded at build time, never committed.
+public/input/
+# Keep small, human-authored JSON under input/ (plan.json), ignore generated ones.
+*.log
+.DS_Store
