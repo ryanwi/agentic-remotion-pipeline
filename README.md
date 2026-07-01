@@ -88,6 +88,23 @@ final/out.mp4              # the deliverable (gitignored)
 
 Node ≥ 18 and `ffmpeg`/`ffprobe` on your PATH. Run `npm run doctor` to verify.
 
+## Use as an agent skill
+
+Beyond scaffolding a project, this repo ships a skill (`SKILL.md`) so an agent knows how to *drive*
+a pipeline built from it. Install it into Claude Code:
+
+```bash
+# Claude Code plugin marketplace
+/plugin marketplace add ryanwi/agentic-remotion-pipeline
+/plugin install agentic-remotion-pipeline@agentic-remotion
+
+# or via skills.sh
+npx skills add ryanwi/agentic-remotion-pipeline
+```
+
+The skill covers producing a video and extending the pipeline; for Remotion authoring itself it
+defers to the official [`remotion-dev/skills`](https://github.com/remotion-dev/skills).
+
 ## Why it's structured this way
 
 See [`docs/agent-guide.md`](docs/agent-guide.md) for the conventions and the reasoning behind them

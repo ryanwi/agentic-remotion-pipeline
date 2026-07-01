@@ -1,0 +1,20 @@
+{
+  "name": "agentic-remotion",
+  "owner": {
+    "name": "Ryan Williams"
+  },
+  "plugins": [
+    {
+      "name": "agentic-remotion-pipeline",
+      "source": "./",
+      "description": "Drive a JSON-in / video-out Remotion project: author input/plan.json, run build-props → render → mix, extend scenes. Layers on top of remotion-dev/skills (which teaches Remotion authoring).",
+      "version": "0.1.0",
+      "author": {
+        "name": "Ryan Williams"
+      },
+      "homepage": "https://github.com/ryanwi/agentic-remotion-pipeline",
+      "repository": "https://github.com/ryanwi/agentic-remotion-pipeline",
+      "license": "MIT"
+    }
+  ]
+}

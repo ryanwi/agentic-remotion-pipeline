@@ -28,7 +28,11 @@ const raw = JSON.parse(fs.readFileSync(planPath, "utf8"));
 const parsed = InputPlanSchema.safeParse(raw);
 if (!parsed.success) {
   log.err("input/plan.json failed validation:");
-  console.error(parsed.error.format());
+  // Flat, path-annotated list — readable for humans and agents, and stable
+  // across Zod majors (`.issues` exists in v3 and v4; `.format()` is deprecated).
+  for (const issue of parsed.error.issues) {
+    console.error(`  • ${issue.path.join(".") || "(root)"}: ${issue.message}`);
+  }
   process.exit(1);
 }
 const plan = parsed.data;

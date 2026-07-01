@@ -1,0 +1,11 @@
+{
+  "name": "agentic-remotion-pipeline",
+  "description": "Drive a JSON-in / video-out Remotion project: author input/plan.json, run build-props → render → mix, extend scenes. The skill is defined in SKILL.md at the repo root.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Ryan Williams"
+  },
+  "homepage": "https://github.com/ryanwi/agentic-remotion-pipeline",
+  "repository": "https://github.com/ryanwi/agentic-remotion-pipeline",
+  "license": "MIT"
+}
