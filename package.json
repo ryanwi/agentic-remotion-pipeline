@@ -22,7 +22,7 @@
     "check": "npm run typecheck && npm run format:check && npm run doctor"
   },
   "dependencies": {
-    "react": "^19.0.0",
+    "react": "^19.2.8",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
